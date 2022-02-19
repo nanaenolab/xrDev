@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>A-Frame Play GIF</title>
+    <!-- GIF component has not been update for aframe 1.3.0 -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- https://github.com/mayognaise/aframe-gif-component -->
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <script>
+      AFRAME.registerComponent('rotato', {
+        //https://aframe.io/docs/1.2.0/introduction/best-practices.html#tick-handlers
+        tick: function()
+        {
+          this.el.object3D.rotation.y -= 0.028049;
+        }
+      });
+    </script>
+    <script>
+    AFRAME.registerComponent('modify-materials', {
+    init: function () {
+      // Wait for model to load.
+      this.el.addEventListener('model-loaded', () => {
+        // Grab the mesh / scene.
+        const obj = this.el.getObject3D('mesh');
+        // Go over the submeshes and modify materials we want.
+        obj.traverse(node => {
+          if (node.name.indexOf('ship') !== -1) {
+            node.material.color.set('red');
+          }
+        });
+      });
+    }
+  });
+</script>
+
+  </head>
+
+<body>
+  <a-scene>
+    <a-assets>
+      <!-- Textures must be divisible by 2 and ideally they are square or a 1:2 rectangle
+        For the web ideal texture dimensions are: 256x256, 512x512, 1024x1024, 2048x2048
+        The gif below was not created to be a texture and gets stretched -->
+
+      <!--<img id="allSee" src="img/allSee.gif">-->
+
+      <!-- https://mixkit.co/free-sound-effects/ -->
+      <audio id="human" src="dan.mp3"></audio>
+      <img
+          id="backgroundimage"
+          src="img/sky2.jpg"/>
+        <!--3D city -->
+      <a-asset-item id="cityModel" src="city/scene.gltf"></a-asset-item>
+
+
+      <a-asset-item id="female1" src="img/female1.glb"></a-asset-item>
+      <a-asset-item id="female2" src="img/female2.glb"></a-asset-item>
+      <a-asset-item id="boy" src="img/boy.gltf"></a-asset-item>
+
+
+
+
+      <!--video-->
+      <video id="nasa" autoplay loop="true" src="nasa.mp4"> </video>
+
+    </a-assets>
+    <a-entity gltf-model="#cityModel" modify-materials></a-entity>
+    <a-entity position="3 1.5 -3" geometry="primitive: box" material="src: #nasa"></a-entity>
+    <!-- First box does not animate, A-Frame by default does not support gif animation
+      opacity using material attribute -
+      https://aframe.io/docs/1.3.0/components/material.html -->
+    <a-box position="-3 1.5 -3" src="#allSee" material="transparent:true; opacity:0.9"></a-box>
+
+    <a-box  position="0 1.5 -3"  material="shader:gif; src:url(img/allSee.gif); transparent:true; opacity:0.5" gif=""  rotato></a-box>
+
+    <!-- the plane is not seen from behind unless side:double is used -->
+    <a-plane position="3 1.5 -3"  material="side:double; shader:gif; src:url(img/allSee.gif);" gif=""></a-plane>
+
+    <a-camera>
+      <!-- 2D Web cursor events are synthetic with WebVR and A-Frame -->
+      <a-cursor></a-cursor>
+    </a-camera>
+
+    <!--human-->
+    <a-gltf-model src="#female1"
+      position="2 1.5 -3"
+      scale="0.1 0.1 0.1">
+    </a-gltf-model>
+
+    <a-gltf-model src="#female2"
+      position="-1 1.5 0"
+      scale="0.1 0.1 0.1">
+    </a-gltf-model>
+
+    <a-gltf-model src="#boy"
+      position="2 1.5 -3"
+      scale="0.5 0.5 0.5"
+      animation="property: object3D.position.y;
+        to: 1.5;
+        dir: alternate;
+        dur: 5000;
+        loop: true">
+
+
+
+    </a-gltf-model>
+    <!-- Present a ground and sky to orient the viewer -->
+    <!-- about color:
+      https://www.w3schools.com/colors/colors_names.asp
+      https://color.adobe.com/create/color-wheel -->
+    <!--<a-sky src="#backgroundimage"></a-sky>-->
+
+  <!--  <a-plane color="#A64000" rotation="-90 0 0" width="500" height="500"></a-plane> -->
+
+    <a-sound
+      src="#human"
+      autoplay="true"
+      position="0 0 0"
+      loop="true"
+      volume="1.0">
+    </a-sound>
+
+  </a-scene>
+</body>
+</html>
