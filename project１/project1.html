@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>project1</title>
+    <!-- GIF component has not been update for aframe 1.3.0 -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <!-- https://github.com/mayognaise/aframe-gif-component -->
+    <script src="https://rawgit.com/mayognaise/aframe-gif-shader/master/dist/aframe-gif-shader.min.js"></script>
+    <script src="https://rawgit.com/mayognaise/aframe-gif-component/master/dist/aframe-gif-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <!-- splite swinkling-->
+    <script src="js/aframe-environment-component.min.js"></script>
+	  <script src="js/aframe-look-at-component.js"></script>
+	  <script src="js/aframe-render-order-component.min.js"></script>
+	  <script src="js/aframe-spritesheet-animation.js"></script>
+
+    <!--cursor interaction-->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@5.0.0/dist/aframe-event-set-component.min.js"></script>
+    <script>
+    AFRAME.registerComponent('sound-events', {
+      init: function () {
+        var el = this.el;  // <a-box>
+        el.addEventListener('click', function () {
+          el.components.sound.playSound();
+        });
+        el.addEventListener('mouseleave', function () {
+          el.components.sound.pauseSound();
+        });
+      }
+    });
+    </script> -->
+
+    <script>
+      AFRAME.registerComponent('rotato', {
+        //https://aframe.io/docs/1.2.0/introduction/best-practices.html#tick-handlers
+        tick: function()
+        {
+          this.el.object3D.rotation.y -= 0.008049;
+        }
+      });
+    </script>
+
+  </head>
+
+<body>
+  <a-scene>
+
+    <a-assets>
+      <!-- Textures must be divisible by 2 and ideally they are square or a 1:2 rectangle
+        For the web ideal texture dimensions are: 256x256, 512x512, 1024x1024, 2048x2048
+        The gif below was not created to be a texture and gets stretched -->
+
+      <!-- https://mixkit.co/free-sound-effects/ -->
+      <audio id="human" src="dan.mp3" preload="auto"></audio>
+      <audio id="bkmusic" src="bkmusic.mp3" preload="auto"></audio>
+      <img
+          id="backgroundimage"
+          src="img/sky4.jpeg"/>
+
+      <img
+            id="bear"
+            src="img/bear.gif"/>
+      <img
+            id="chimny"
+            src="img/chimny.gif"/>
+      <img
+            id="you"
+            src="img/destroyyou.gif"/>
+      <img id="glow" src="image/glow.png">
+      <img id="grid" src="image/grid.png">
+
+      <a-asset-item id="female1" src="img/female1.glb"></a-asset-item>
+      <a-asset-item id="female2" src="img/female2.glb"></a-asset-item>
+      <a-asset-item id="female4" src="img/female4.glb"></a-asset-item>
+      <a-asset-item id="female5" src="img/female5.glb"></a-asset-item>
+      <a-asset-item id="female6" src="img/female6.glb"></a-asset-item>
+      <a-asset-item id="male1" src="img/Male1.glb"></a-asset-item>
+      <a-asset-item id="male2" src="img/Male2.glb"></a-asset-item>
+      <a-asset-item id="male3" src="img/Male3.glb"></a-asset-item>
+      <a-asset-item id="male4" src="img/Male4.glb"></a-asset-item>
+      <a-asset-item id="male5" src="img/Male5.glb"></a-asset-item>
+      <a-asset-item id="male6" src="img/Male6.glb"></a-asset-item>
+      <a-asset-item id="male7" src="img/Male7.glb"></a-asset-item>
+
+      <a-asset-item id="boy" src="img/boy.gltf"></a-asset-item>
+      <a-asset-item id="building" src="building/scene.gltf"></a-asset-item>
+      <a-asset-item id="building2" src="building2/scene.gltf"></a-asset-item>
+      <a-asset-item id="building3" src="building3/scene.gltf"></a-asset-item>
+      <!-- <a-asset-item id="building4" src="building4/scene.gltf"></a-asset-item>
+      <a-asset-item id="building5" src="building5/scene.gltf"></a-asset-item> -->
+      <!--video-->
+      <video id="nasa" autoplay loop="true" src="nasa.mp4"> </video>
+
+    </a-assets>
+
+    <a-entity id="glowPulse" position="-1 3 -3"
+    		animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; dur: 4000; loop: true; easing: linear;">
+    		<a-sphere radius="0.05" material="src: #grid; emissive: yellow; emissive-intensity: 0.5;"
+    		animation__pulse="property: material.emissiveIntensity;
+        from: 0.5; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-sphere>
+    	</a-entity>
+    <a-entity id="glowPulse" position="3 3 -3"
+      		animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; dur: 4000; loop: true; easing: linear;">
+      		<a-sphere radius="0.05" material="src: #grid; emissive: yellow; emissive-intensity: 0.5;"
+      		animation__pulse="property: material.emissiveIntensity;
+          from: 0.5; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-sphere>
+      		<!-- <a-image width="2" height="2" src="#glow" color="yellow" material="transparent: true; opacity: 1.0; alphaTest: 0.01;"
+      		animation__pulse="property: material.opacity; from: 1.0; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-image> -->
+      	</a-entity>
+        <a-entity id="glowPulse" position="-2 5 -5"
+        		animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; dur: 4000; loop: true; easing: linear;">
+        		<a-sphere radius="0.05" material="src: #grid; emissive: yellow; emissive-intensity: 0.5;"
+        		animation__pulse="property: material.emissiveIntensity;
+            from: 0.5; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-sphere>
+        	</a-entity>
+          <a-entity id="glowPulse" position="1 3 3"
+          		animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; dur: 4000; loop: true; easing: linear;">
+          		<a-sphere radius="0.05" material="src: #grid; emissive: yellow; emissive-intensity: 0.5;"
+          		animation__pulse="property: material.emissiveIntensity;
+              from: 0.5; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-sphere>
+          	</a-entity>
+            <a-entity id="glowPulse" position="5 3 5"
+            		animation__spin="property: rotation; from: 0 0 0; to: 0 360 0; dur: 4000; loop: true; easing: linear;">
+            		<a-sphere radius="0.05" material="src: #grid; emissive: yellow; emissive-intensity: 0.5;"
+            		animation__pulse="property: material.emissiveIntensity;
+                from: 0.5; to: 0.0; dur: 1000; loop: true; dir: alternate; easing: linear;"></a-sphere>
+            	</a-entity>
+    <a-entity position="-5 1.5 3" geometry="primitive: sphere" material="src: #nasa" ></a-entity>
+
+    <a-box position="5 2 4" src="#chimny"
+            material="shader:gif; src:url(img/chimny.gif); opacity:0.7"
+            scale="2 3 2"
+            animation="property: object3D.position.y;
+              to: 0.3;
+              dir: alternate;
+              dur: 5000;
+              loop: true"
+      ></a-box>
+
+      <!-- <a-box position="0 6 -7" src="#you"
+      rotation="0 45 30"
+      material="shader:gif; src:url(img/destroyyou.gif); opacity:0.9"
+      scale="2 2 2"></a-box> -->
+
+    <a-cylinder  position="-6 1.5 -7" radius="1.25"  height= " 3 " material="shader:gif; src:url(img/bear.gif); transparent:true; opacity:0.9" gif=""  rotato></a-cylinder>
+    <!--building-->
+    <a-gltf-model src="#building"
+      position="0 0 -10"
+      scale="0.2 0.2 0.2">
+    </a-gltf-model>
+    <a-gltf-model src="#building2"
+      position="0 -1 0"
+      scale="3 3 3">
+    </a-gltf-model>
+    <a-gltf-model src="#building2"
+      position="30 -1 20"
+      scale="4 4 4">
+    </a-gltf-model>
+    <a-gltf-model src="#building2"
+      position="-30 0 -10"
+      scale="3 3 3">
+    </a-gltf-model>
+    <a-gltf-model src="#building3"
+      position="20 0 20"
+      scale="0.1 0.1 0.1">
+    </a-gltf-model>
+    <!-- <a-gltf-model src="#building4"
+      position="-40 -1 -30"
+      scale="1 1 1">
+    </a-gltf-model>
+    <a-gltf-model src="#building5"
+      position="20 -1 -10"
+      scale="0.8 0.8 0.8">
+    </a-gltf-model> -->
+
+    <!--human-->
+    <a-gltf-model src="#female1"
+      position="2 0 -3"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female1"
+      position="-1 1.5 0"
+      scale="0.1 0.1 0.1">
+    </a-gltf-model>
+    <a-gltf-model src="#female5"
+      position="-2 0 -3"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female2"
+      position="2 0 -3"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female4"
+      position="2 0 -5"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female4"
+      position="-3 0 5"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female5"
+      position="3 0 -7"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#female5"
+      position="3 0 9"
+      scale="0.7 0.7 0.7">
+    </a-gltf-model>
+    <a-gltf-model src="#male1"
+        position="2 0 3"
+        scale="0.7 0.7 0.7">
+      </a-gltf-model>
+      <a-gltf-model src="#male2"
+          position="5 0 5"
+          scale="0.7 0.7 0.7">
+      </a-gltf-model>
+      <a-gltf-model src="#male3"
+            position="5 0 -5"
+            scale="0.7 0.7 0.7">
+      </a-gltf-model>
+      <a-gltf-model src="#male4"
+          position="0 0 0"
+          scale="0.7 0.7 0.7">
+      </a-gltf-model>
+      <a-gltf-model src="#male5"
+          position="-10 0 10"
+          scale="0.7 0.7 0.7">
+      </a-gltf-model>
+
+
+
+     <a-sky src="#backgroundimage"></a-sky>
+     <a-sound
+       src="#human"
+       autoplay="true"
+       position="0 0 0"
+       volume="1.0">
+     </a-sound>
+     <a-sound
+       src="#bkmusic"
+       autoplay="true"
+       position="0 0 0"
+       volume="0.5">
+     </a-sound>
+    <!-- <a-sound
+      src="#human"
+      autoplay="true"
+      position="0 0 0"
+      loop="true"
+      volume="1.0" sound-events>
+    </a-sound> -->
+
+  </a-scene>
+</body>
+</html>
